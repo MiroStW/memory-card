@@ -3,15 +3,15 @@ import Card from "./Card";
 
 const cards = {
   1: {
-    imgUrl: "https://picsum.photos/200",
+    imgUrl: "https://picsum.photos/100",
     name: "lorem",
   },
   2: {
-    imgUrl: "https://picsum.photos/200",
+    imgUrl: "https://picsum.photos/100",
     name: "ipsum",
   },
   3: {
-    imgUrl: "https://picsum.photos/200",
+    imgUrl: "https://picsum.photos/100",
     name: "lorem",
   },
 };
@@ -23,7 +23,13 @@ const App = (props) => {
   const handleCardClick = (id) => {
     if (clickedCards.includes(id)) {
       console.log("card already clicked");
-    } else setClickedCards([...clickedCards, id]);
+      if (clickedCards.length > bestScore) setBestScore(clickedCards.length);
+      setClickedCards([]);
+    } else {
+      console.log("new card clicked");
+      setClickedCards([...clickedCards, id]);
+    }
+    // randomise order
   };
 
   useEffect(() => {
@@ -33,6 +39,8 @@ const App = (props) => {
   return (
     <>
       <h1>Memory card game</h1>
+      <p>current score: {clickedCards.length}</p>
+      <p>best score: {bestScore}</p>
       {Object.keys(cards).map((card) => (
         <Card
           key={card}
