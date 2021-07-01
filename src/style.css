@@ -10,11 +10,11 @@ body {
   font-size: 16px;
 }
 
-#App {
+#root {
   display: grid;
   grid-template-rows: max-content max-content;
   gap: 15px;
-  max-width: 360px;
+  max-width: 1060px;
   margin: 0 auto;
   height: 100%;
 }
@@ -27,13 +27,20 @@ h1 {
   border-bottom: 1px white dashed;
 }
 
+#cards {
+  display: grid;
+  /* grid-template-rows: max-content max-content; */
+  grid-template-columns: repeat(auto-fit, 122px);
+  gap: 15px;
+  width: 720px;
+  margin: 0 auto;
+  height: 100%;
+}
+
 .card {
-  margin-bottom: 20px;
-  padding-block-start: 1em;
-  padding-inline-start: 1em;
-  padding-block-end: 1em;
   border: 1px white dashed;
-  border-radius: 4px;
+  border-radius: 5%;
+  padding: 10px;
 }
 
 button {

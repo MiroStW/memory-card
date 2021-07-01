@@ -1,24 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 
-const cards = {
-  1: {
-    imgUrl: "https://picsum.photos/100",
-    name: "lorem",
-  },
-  2: {
-    imgUrl: "https://picsum.photos/100",
-    name: "ipsum",
-  },
-  3: {
-    imgUrl: "https://picsum.photos/100",
-    name: "lorem",
-  },
-};
-
 const App = (props) => {
+  const [cards, setCards] = useState({});
   const [clickedCards, setClickedCards] = useState([]);
   const [bestScore, setBestScore] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleCardClick = (id) => {
     if (clickedCards.includes(id)) {
@@ -29,27 +16,70 @@ const App = (props) => {
       console.log("new card clicked");
       setClickedCards([...clickedCards, id]);
     }
-    // randomise order
   };
 
+  const showShuffleCards = () =>
+    Object.keys(cards)
+      .map((card) => ({ sort: Math.random(), value: card }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((card) => card.value)
+      .map((card) => (
+        <Card
+          key={card}
+          id={card}
+          cardObject={cards[card]}
+          handleCardClick={handleCardClick}
+        />
+      ));
+
   useEffect(() => {
-    console.log(clickedCards);
+    const getPokemon = async (cardCount) => {
+      // style them as tiles (look up library project)
+      setLoading(true);
+
+      const pokemonIds = [];
+      for (let i = 0; i < cardCount; i++) {
+        pokemonIds.push(Math.floor(Math.random() * 898));
+      }
+
+      await Promise.all(
+        pokemonIds.map(async (id, i) => {
+          let response = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${id}`,
+            { mode: "cors" }
+          );
+          response = await response.json();
+          setCards((prevState) => ({
+            ...prevState,
+            [i]: {
+              name: response.name,
+              imgUrl: response.sprites.front_default,
+            },
+          }));
+        })
+      );
+      setLoading(false);
+    };
+    getPokemon(6);
+  }, []);
+
+  useEffect(() => {
+    console.log(`clickedCards: ${clickedCards}`);
   }, [clickedCards]);
+
+  useEffect(() => {
+    console.log(`cards (1.org 2.shuffled):`);
+    console.log(cards);
+  }, [cards]);
 
   return (
     <>
       <h1>Memory card game</h1>
       <p>current score: {clickedCards.length}</p>
       <p>best score: {bestScore}</p>
-      {Object.keys(cards).map((card) => (
-        <Card
-          key={card}
-          id={card}
-          name={cards[card].name}
-          imgUrl={cards[card].imgUrl}
-          handleCardClick={handleCardClick}
-        />
-      ))}
+      <div id="cards">
+        {loading ? <div>loading...</div> : showShuffleCards()}
+      </div>
     </>
   );
 };
