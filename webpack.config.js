@@ -16,6 +16,10 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
+        test: /\.(jpg|png)$/,
+        use: "url-loader",
+      },
+      {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
