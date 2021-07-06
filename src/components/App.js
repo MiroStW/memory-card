@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import Result from "./Result";
+import DifficultySwitch from "./DifficultySwitch";
 
 const App = (props) => {
+  const [totalCards, setTotalCards] = useState(8);
   const [cards, setCards] = useState({});
   const [clickedCards, setClickedCards] = useState([]);
   const [bestScore, setBestScore] = useState(0);
@@ -37,6 +39,7 @@ const App = (props) => {
 
   const getPokemon = async (cardCount) => {
     // style them as tiles (look up library project)
+    setCards({});
     setLoading(true);
 
     const pokemonIds = [];
@@ -63,8 +66,10 @@ const App = (props) => {
   };
 
   useEffect(() => {
-    getPokemon(3);
-  }, []);
+    getPokemon(totalCards);
+    setClickedCards([]);
+    console.log(`# total cards ${totalCards}`);
+  }, [totalCards]);
 
   useEffect(() => {
     if (
@@ -72,8 +77,8 @@ const App = (props) => {
       Object.keys(cards).length > 0
     ) {
       setGameResult("won");
-      setBestScore(0);
-      getPokemon(3);
+      setClickedCards([]);
+      getPokemon(totalCards);
       console.log("WON!!!");
     }
     console.log(`# clickedCards: ${clickedCards.length}`);
@@ -90,13 +95,17 @@ const App = (props) => {
       <h1>Memory card game</h1>
       <div>
         <p>
-          Get points by clicking on an image but don&apos;t click on any more
+          Get points by clicking on an image but don&apos;t click the same more
           than once!
         </p>
       </div>
       <div>
-        <p>current score: {clickedCards.length}</p>
-        <p>best score: {bestScore}</p>
+        <p>Current score: {clickedCards.length}</p>
+        <p>Best score: {bestScore}</p>
+        <DifficultySwitch
+          totalCards={totalCards}
+          setTotalCards={setTotalCards}
+        />
         {/* add select to increase difficulty */}
         {/* add new cards btn */}
       </div>
