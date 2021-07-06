@@ -15,7 +15,7 @@ const Card = (props) => (
 
 Card.propTypes = {
   handleCardClick: PropTypes.func,
-  id: PropTypes.number,
+  id: PropTypes.string,
   cardObject: PropTypes.object,
 };
 

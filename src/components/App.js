@@ -68,7 +68,7 @@ const App = () => {
     setCards({});
     getPokemon(totalCards);
     setClickedCards([]);
-    console.log(`# total cards ${totalCards}`);
+    // console.log(`# total cards ${totalCards}`);
   }, [totalCards]);
 
   useEffect(() => {
@@ -82,8 +82,10 @@ const App = () => {
       getPokemon(totalCards);
       console.log("WON!!!");
     }
-    console.log(`# clickedCards: ${clickedCards.length}`);
-    console.log(`# totalCards: ${Object.keys(cards).length}`);
+    if (totalCards === Object.keys(cards).length)
+      console.log(
+        `# clickedCards: ${clickedCards.length} / ${Object.keys(cards).length}`
+      );
   }, [cards, clickedCards.length, totalCards]);
 
   // useEffect(() => {
