@@ -3,7 +3,7 @@ import Card from "./Card";
 import Result from "./Result";
 import DifficultySwitch from "./DifficultySwitch";
 
-const App = (props) => {
+const App = () => {
   const [totalCards, setTotalCards] = useState(8);
   const [cards, setCards] = useState({});
   const [clickedCards, setClickedCards] = useState([]);
@@ -39,11 +39,10 @@ const App = (props) => {
 
   const getPokemon = async (cardCount) => {
     // style them as tiles (look up library project)
-    setCards({});
     setLoading(true);
 
     const pokemonIds = [];
-    for (let i = 0; i < cardCount; i++) {
+    for (let i = 0; i < cardCount; i += 1) {
       pokemonIds.push(Math.floor(Math.random() * 898));
     }
 
@@ -66,6 +65,7 @@ const App = (props) => {
   };
 
   useEffect(() => {
+    setCards({});
     getPokemon(totalCards);
     setClickedCards([]);
     console.log(`# total cards ${totalCards}`);
@@ -78,17 +78,18 @@ const App = (props) => {
     ) {
       setGameResult("won");
       setClickedCards([]);
+      setCards({});
       getPokemon(totalCards);
       console.log("WON!!!");
     }
     console.log(`# clickedCards: ${clickedCards.length}`);
     console.log(`# totalCards: ${Object.keys(cards).length}`);
-  }, [clickedCards.length]);
+  }, [cards, clickedCards.length, totalCards]);
 
-  useEffect(() => {
-    console.log(`shuffled cards:`);
-    console.log(cards);
-  }, [cards]);
+  // useEffect(() => {
+  //   console.log(`shuffled cards:`);
+  //   console.log(cards);
+  // }, [cards]);
 
   return (
     <>

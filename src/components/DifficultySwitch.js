@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
 const DifficultySwitch = (props) => {
   const changeDifficulty = (count) => {
@@ -20,6 +21,11 @@ const DifficultySwitch = (props) => {
       </select>
     </>
   );
+};
+
+DifficultySwitch.propTypes = {
+  totalCards: PropTypes.number,
+  setTotalCards: PropTypes.func,
 };
 
 export default DifficultySwitch;

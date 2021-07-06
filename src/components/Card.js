@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Card = (props) => (
   <div
@@ -11,5 +12,11 @@ const Card = (props) => (
     <p>{props.cardObject.name}</p>
   </div>
 );
+
+Card.propTypes = {
+  handleCardClick: PropTypes.func,
+  id: PropTypes.number,
+  cardObject: PropTypes.object,
+};
 
 export default Card;

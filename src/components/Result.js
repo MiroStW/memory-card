@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 
 const Result = (props) => {
   useEffect(() => {
@@ -10,7 +11,7 @@ const Result = (props) => {
       .removeEventListener("click", () => {
         props.setResult(null);
       });
-  }, []);
+  }, [props]);
 
   if (props.result === "won") {
     return (
@@ -20,13 +21,16 @@ const Result = (props) => {
     );
   }
 
-  if (props.result === "lost") {
-    return (
-      <div id="result" className="lost">
-        <div>You lost :-(</div>
-      </div>
-    );
-  }
+  return (
+    <div id="result" className="lost">
+      <div>You lost :-(</div>
+    </div>
+  );
+};
+
+Result.propTypes = {
+  result: PropTypes.oneOf(["won", "lost"]),
+  setResult: PropTypes.func,
 };
 
 export default Result;
