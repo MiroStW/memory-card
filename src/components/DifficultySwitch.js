@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const DifficultySwitch = (props) => {
-  const changeDifficulty = (count) => {
-    props.setTotalCards(count);
-  };
+  const changeDifficulty = (count) => props.setTotalCards(parseInt(count, 10));
 
   return (
     <>
