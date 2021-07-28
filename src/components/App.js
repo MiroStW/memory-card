@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import Result from "./Result";
 import DifficultySwitch from "./DifficultySwitch";
+import loadCards from "./loadCards";
 
 const App = () => {
   const [totalCards, setTotalCards] = useState(8);
@@ -11,6 +12,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [gameResult, setGameResult] = useState(null);
 
+  // Game logic component
   const handleCardClick = (id) => {
     if (clickedCards.includes(id)) {
       console.log("card already clicked");
@@ -23,6 +25,7 @@ const App = () => {
     }
   };
 
+  // Cards component
   const showShuffleCards = () =>
     Object.keys(cards)
       .map((card) => ({ sort: Math.random(), value: card }))
@@ -37,51 +40,34 @@ const App = () => {
         />
       ));
 
-  const getPokemon = async (cardCount) => {
-    // style them as tiles (look up library project)
-    setLoading(true);
-
-    const pokemonIds = [];
-    for (let i = 0; i < cardCount; i += 1) {
-      pokemonIds.push(Math.floor(Math.random() * 898));
-    }
-
-    await Promise.all(
-      pokemonIds.map(async (id, i) => {
-        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-          mode: "cors",
-        });
-        response = await response.json();
-        setCards((prevState) => ({
-          ...prevState,
-          [i]: {
-            name: response.name,
-            imgUrl: response.sprites.front_default,
-          },
-        }));
-      })
-    );
-    setLoading(false);
-  };
-
+  // if no of total cards is changed (e.g. game started or difficulty changed)
   useEffect(() => {
     setCards({});
-    getPokemon(totalCards);
+    (async () => {
+      setLoading(true);
+      setCards(await loadCards(totalCards));
+      setLoading(false);
+    })();
     setClickedCards([]);
     // console.log(`# total cards ${totalCards}`);
   }, [totalCards]);
 
   useEffect(() => {
+    // if all cards clicked
     if (
       clickedCards.length === Object.keys(cards).length &&
-      Object.keys(cards).length > 0
+      clickedCards.length > 0
     ) {
       setGameResult("won");
       setClickedCards([]);
-      setCards({});
-      getPokemon(totalCards);
+      (async () => {
+        setLoading(true);
+        setCards(await loadCards(totalCards));
+        setLoading(false);
+      })();
       console.log("WON!!!");
     }
+
     if (totalCards === Object.keys(cards).length)
       console.log(
         `# clickedCards: ${clickedCards.length} / ${Object.keys(cards).length}`
