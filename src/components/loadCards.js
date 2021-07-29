@@ -14,7 +14,7 @@ const LoadCards = async (cardCount) => {
       pokemons = {
         ...pokemons,
         [i]: {
-          name: response.name,
+          name: response.name.charAt(0).toUpperCase() + response.name.slice(1),
           imgUrl: response.sprites.front_default,
         },
       };
