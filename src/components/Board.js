@@ -31,13 +31,12 @@ const Board = ({
 
   // if no of total cards is changed (e.g. game started or difficulty changed)
   useEffect(() => {
-    setCards({});
+    setClickedCards([]);
     (async () => {
       setIsLoading(true);
       setCards(await loadCards(totalCards));
       setIsLoading(false);
     })();
-    setClickedCards([]);
     // console.log(`# total cards ${totalCards}`);
   }, [totalCards]);
 
@@ -61,7 +60,7 @@ const Board = ({
       console.log(
         `# clickedCards: ${clickedCards.length} / ${Object.keys(cards).length}`
       );
-  }, [cards, clickedCards.length, totalCards]);
+  }, [cards, clickedCards.length, setClickedCards, totalCards]);
 
   return (
     <>
