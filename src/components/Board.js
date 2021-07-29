@@ -55,12 +55,7 @@ const Board = ({
       })();
       console.log("WON!!!");
     }
-
-    if (totalCards === Object.keys(cards).length)
-      console.log(
-        `# clickedCards: ${clickedCards.length} / ${Object.keys(cards).length}`
-      );
-  }, [cards, clickedCards.length, setClickedCards, totalCards]);
+  }, [cards, clickedCards, setClickedCards, totalCards]);
 
   return (
     <>
