@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Board from "./Board";
+import Board from "../gameboard/Board";
 import DifficultySwitch from "./DifficultySwitch";
 
 const App = () => {
