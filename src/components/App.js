@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Card from "./Card";
+import Board from "./Board";
 import Result from "./Result";
 import DifficultySwitch from "./DifficultySwitch";
 import loadCards from "./loadCards";
@@ -9,7 +9,7 @@ const App = () => {
   const [cards, setCards] = useState({});
   const [clickedCards, setClickedCards] = useState([]);
   const [bestScore, setBestScore] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [gameResult, setGameResult] = useState(null);
 
   // Game logic component
@@ -25,35 +25,20 @@ const App = () => {
     }
   };
 
-  // Cards component
-  const showShuffleCards = () =>
-    Object.keys(cards)
-      .map((card) => ({ sort: Math.random(), value: card }))
-      .sort((a, b) => a.sort - b.sort)
-      .map((card) => card.value)
-      .map((card) => (
-        <Card
-          key={card}
-          id={card}
-          cardObject={cards[card]}
-          handleCardClick={handleCardClick}
-        />
-      ));
-
   // if no of total cards is changed (e.g. game started or difficulty changed)
   useEffect(() => {
     setCards({});
     (async () => {
-      setLoading(true);
+      setIsLoading(true);
       setCards(await loadCards(totalCards));
-      setLoading(false);
+      setIsLoading(false);
     })();
     setClickedCards([]);
     // console.log(`# total cards ${totalCards}`);
   }, [totalCards]);
 
   useEffect(() => {
-    // if all cards clicked
+    // if all cards clicked // WON
     if (
       clickedCards.length === Object.keys(cards).length &&
       clickedCards.length > 0
@@ -61,9 +46,9 @@ const App = () => {
       setGameResult("won");
       setClickedCards([]);
       (async () => {
-        setLoading(true);
+        setIsLoading(true);
         setCards(await loadCards(totalCards));
-        setLoading(false);
+        setIsLoading(false);
       })();
       console.log("WON!!!");
     }
@@ -100,7 +85,11 @@ const App = () => {
       </div>
       <div id="cards">
         {gameResult && <Result result={gameResult} setResult={setGameResult} />}
-        {loading ? <div>loading...</div> : showShuffleCards()}
+        {isLoading ? (
+          <div>loading...</div>
+        ) : (
+          <Board cards={cards} handleCardClick={() => handleCardClick()} />
+        )}
       </div>
     </>
   );
