@@ -1,11 +1,19 @@
 import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Board from "../gameboard/Board";
+import Result from "../gameboard/Result";
 import DifficultySwitch from "./DifficultySwitch";
 
 const App = () => {
   const [totalCards, setTotalCards] = useState(8);
   const [clickedCards, setClickedCards] = useState([]);
   const [bestScore, setBestScore] = useState(0);
+  const [gameResult, setGameResult] = useState(null);
 
   return (
     <>
@@ -26,13 +34,25 @@ const App = () => {
         {/* add new cards btn */}
       </div>
       <div id="cards">
-        <Board
-          totalCards={totalCards}
-          clickedCards={clickedCards}
-          setClickedCards={setClickedCards}
-          bestScore={bestScore}
-          setBestScore={setBestScore}
-        />
+        <Router>
+          <Switch>
+            <Route path={`/`} exact>
+              {gameResult && <Redirect to="/result" />}
+              <Board
+                totalCards={totalCards}
+                clickedCards={clickedCards}
+                setClickedCards={setClickedCards}
+                bestScore={bestScore}
+                setBestScore={setBestScore}
+                setGameResult={setGameResult}
+              />
+            </Route>
+            <Route path={`/result`}>
+              {!gameResult && <Redirect to="/" />}
+              <Result gameResult={gameResult} setGameResult={setGameResult} />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     </>
   );

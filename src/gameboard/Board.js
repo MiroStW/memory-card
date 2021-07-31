@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Result from "./Result";
 import loadCards from "./loadCards";
 import Card from "./Card";
 
@@ -11,10 +10,10 @@ const Board = ({
   setClickedCards,
   bestScore,
   setBestScore,
+  setGameResult,
 }) => {
   const [cards, setCards] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [gameResult, setGameResult] = useState(null);
 
   // Game logic component
   const handleCardClick = (id) => {
@@ -59,7 +58,6 @@ const Board = ({
 
   return (
     <>
-      {gameResult && <Result result={gameResult} setResult={setGameResult} />}
       {isLoading ? (
         <div>loading...</div>
       ) : (
@@ -88,4 +86,6 @@ Board.propTypes = {
   setClickedCards: PropTypes.func,
   bestScore: PropTypes.number,
   setBestScore: PropTypes.func,
+  gameResult: PropTypes.oneOf(["won", "lost"]),
+  setGameResult: PropTypes.func,
 };
