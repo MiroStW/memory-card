@@ -1,7 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const Card = (props) => (
+interface CardProps {
+  id: number;
+  handleCardClick: (id: number) => void;
+  cardObject: {
+    name: string;
+    imgUrl: string;
+  };
+}
+
+const Card = (props: CardProps) => (
   <div
     className="card"
     onClick={() => {
@@ -12,11 +20,5 @@ const Card = (props) => (
     <p>{props.cardObject.name}</p>
   </div>
 );
-
-Card.propTypes = {
-  handleCardClick: PropTypes.func,
-  id: PropTypes.string,
-  cardObject: PropTypes.object,
-};
 
 export default Card;

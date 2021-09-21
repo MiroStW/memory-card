@@ -11,9 +11,9 @@ import DifficultySwitch from "./DifficultySwitch";
 
 const App = () => {
   const [totalCards, setTotalCards] = useState(8);
-  const [clickedCards, setClickedCards] = useState([]);
-  const [bestScore, setBestScore] = useState(0);
-  const [gameResult, setGameResult] = useState(null);
+  const [clickedCards, setClickedCards] = useState<number[]>([]);
+  const [bestScore, setBestScore] = useState<number>(0);
+  const [gameResult, setGameResult] = useState<"lost" | "won" | null>(null);
 
   return (
     <>

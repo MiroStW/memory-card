@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
-  entry: ["./src/index.js", "./src/style.css"],
+  entry: ["./src/index.tsx", "./src/style.css"],
   output: {
     filename: "[name].js", // filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, "docs/"),
@@ -20,6 +20,11 @@ module.exports = {
         use: "url-loader",
       },
       {
+        test: /\.tsx?$/,
+        include: path.resolve("src"),
+        use: ["babel-loader", "ts-loader"],
+      },
+      {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
@@ -34,12 +39,17 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+    modules: ["src", "node_modules"],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Memory cards game",
       template: "./src/index.html",
     }),
   ],
+  devtool: "eval-source-map",
   optimization: {
     moduleIds: "deterministic",
     runtimeChunk: "single",

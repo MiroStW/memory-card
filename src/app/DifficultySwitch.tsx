@@ -1,8 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const DifficultySwitch = (props) => {
-  const changeDifficulty = (count) => props.setTotalCards(parseInt(count, 10));
+type difficultySwitchProps = {
+  totalCards: number;
+  setTotalCards(totalCards: number): void;
+};
+
+const DifficultySwitch = (props: difficultySwitchProps) => {
+  const changeDifficulty = (count: number) => props.setTotalCards(count);
 
   return (
     <>
@@ -10,7 +14,7 @@ const DifficultySwitch = (props) => {
       <select
         name="difficulty"
         id="difficultySwitch"
-        onChange={(e) => changeDifficulty(e.target.value)}
+        onChange={(e) => changeDifficulty(Number(e.target.value))}
         defaultValue={props.totalCards}
       >
         <option value="4">Easy</option>
@@ -19,11 +23,6 @@ const DifficultySwitch = (props) => {
       </select>
     </>
   );
-};
-
-DifficultySwitch.propTypes = {
-  totalCards: PropTypes.number,
-  setTotalCards: PropTypes.func,
 };
 
 export default DifficultySwitch;

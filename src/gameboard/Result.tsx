@@ -1,7 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const Result = (props) => {
+interface resultProps {
+  gameResult: "lost" | "won" | null;
+  setGameResult: (gameResult: null) => void;
+}
+
+const Result = (props: resultProps) => {
   if (props.gameResult === "won") {
     return (
       <div
@@ -19,11 +23,6 @@ const Result = (props) => {
       <div>You lost :-(</div>
     </div>
   );
-};
-
-Result.propTypes = {
-  gameResult: PropTypes.oneOf(["won", "lost"]),
-  setGameResult: PropTypes.func,
 };
 
 export default Result;

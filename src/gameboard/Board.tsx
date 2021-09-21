@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import loadCards from "./loadCards";
 import Card from "./Card";
+
+interface BoardProps {
+  totalCards: number;
+  clickedCards: number[];
+  setClickedCards: (clickedCards: number[]) => void;
+  bestScore: number;
+  setBestScore: (bestScore: number) => void;
+  setGameResult: (gameResult: "lost" | "won" | null) => void;
+}
+
+interface pokemonObject {
+  [i: number]: {
+    name: string;
+    imgUrl: string;
+  };
+}
 
 // Cards component
 const Board = ({
@@ -11,12 +26,12 @@ const Board = ({
   bestScore,
   setBestScore,
   setGameResult,
-}) => {
-  const [cards, setCards] = useState({});
+}: BoardProps) => {
+  const [cards, setCards] = useState<pokemonObject>({});
   const [isLoading, setIsLoading] = useState(false);
 
   // Game logic component
-  const handleCardClick = (id) => {
+  const handleCardClick = (id: number) => {
     if (clickedCards.includes(id)) {
       console.log("card already clicked");
       if (clickedCards.length > bestScore) setBestScore(clickedCards.length);
@@ -64,7 +79,7 @@ const Board = ({
         Object.keys(cards)
           .map((card) => ({ sort: Math.random(), value: card }))
           .sort((a, b) => a.sort - b.sort)
-          .map((card) => card.value)
+          .map((card) => Number(card.value))
           .map((card) => (
             <Card
               key={card}
@@ -79,13 +94,3 @@ const Board = ({
 };
 
 export default Board;
-
-Board.propTypes = {
-  totalCards: PropTypes.number,
-  clickedCards: PropTypes.array,
-  setClickedCards: PropTypes.func,
-  bestScore: PropTypes.number,
-  setBestScore: PropTypes.func,
-  gameResult: PropTypes.oneOf(["won", "lost"]),
-  setGameResult: PropTypes.func,
-};
