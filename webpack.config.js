@@ -6,7 +6,7 @@ module.exports = {
   entry: ["./src/index.tsx", "./src/style.css"],
   output: {
     filename: "[name].js", // filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, "docs/"),
+    path: path.resolve(__dirname, "build/"),
     clean: true,
   },
   module: {
@@ -17,7 +17,14 @@ module.exports = {
       },
       {
         test: /\.(jpg|png)$/,
-        use: "url-loader",
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
       },
       {
         test: /\.tsx?$/,
@@ -49,7 +56,7 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
-  devtool: "eval-source-map",
+  // devtool: "eval-source-map",
   optimization: {
     moduleIds: "deterministic",
     runtimeChunk: "single",
