@@ -34,7 +34,8 @@ const App = () => {
         {/* add new cards btn */}
       </div>
       <div id="cards">
-        <Router>
+        {/* basename for gh-pages deployment - remove if deploying to custom domain */}
+        <Router basename="/memory-card">
           <Switch>
             <Route path={`/`} exact>
               {gameResult && <Redirect to="/result" />}

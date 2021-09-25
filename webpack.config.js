@@ -55,8 +55,13 @@ module.exports = {
       title: "Memory cards game",
       template: "./src/index.html",
     }),
+    new HtmlWebpackPlugin({
+      title: "Memory cards game - 404",
+      template: "./src/404.html",
+      filename: "404.html",
+    }),
   ],
-  // devtool: "eval-source-map",
+  devtool: "eval-source-map",
   optimization: {
     moduleIds: "deterministic",
     runtimeChunk: "single",
