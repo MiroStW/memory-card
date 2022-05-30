@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
-  Redirect,
+  Navigate,
 } from "react-router-dom";
 import Board from "../gameboard/Board";
 import Result from "../gameboard/Result";
@@ -34,25 +34,38 @@ const App = () => {
         {/* add new cards btn */}
       </div>
       <div id="cards">
-        {/* basename for gh-pages deployment - remove if deploying to custom domain */}
-        <Router basename="/memory-card">
-          <Switch>
-            <Route path={`/`} exact>
-              {gameResult && <Redirect to="/result" />}
-              <Board
-                totalCards={totalCards}
-                clickedCards={clickedCards}
-                setClickedCards={setClickedCards}
-                bestScore={bestScore}
-                setBestScore={setBestScore}
-                setGameResult={setGameResult}
-              />
-            </Route>
-            <Route path={`/result`}>
-              {!gameResult && <Redirect to="/" />}
-              <Result gameResult={gameResult} setGameResult={setGameResult} />
-            </Route>
-          </Switch>
+        {/* add basename="/memory-card" for gh-pages deployment - remove if deploying to custom domain */}
+        <Router>
+          <Routes>
+            <Route
+              path={`/`}
+              element={
+                <>
+                  {gameResult && <Navigate to="/result" />}
+                  <Board
+                    totalCards={totalCards}
+                    clickedCards={clickedCards}
+                    setClickedCards={setClickedCards}
+                    bestScore={bestScore}
+                    setBestScore={setBestScore}
+                    setGameResult={setGameResult}
+                  />
+                </>
+              }
+            />
+            <Route
+              path={`/result`}
+              element={
+                <>
+                  {!gameResult && <Navigate to="/" />}
+                  <Result
+                    gameResult={gameResult}
+                    setGameResult={setGameResult}
+                  />
+                </>
+              }
+            />
+          </Routes>
         </Router>
       </div>
     </>
