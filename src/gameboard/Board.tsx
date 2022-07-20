@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import loadCards from "./loadCards";
+import { useEffect } from "react";
+import { useGetCards } from "./useGetCards";
 import Card from "./Card";
 
 interface BoardProps {
@@ -11,14 +11,7 @@ interface BoardProps {
   setGameResult: (gameResult: "lost" | "won" | null) => void;
 }
 
-interface pokemonObject {
-  [i: number]: {
-    name: string;
-    imgUrl: string;
-  };
-}
-
-// Cards component
+// Board component
 const Board = ({
   totalCards,
   clickedCards,
@@ -27,8 +20,7 @@ const Board = ({
   setBestScore,
   setGameResult,
 }: BoardProps) => {
-  const [cards, setCards] = useState<pokemonObject>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const { cards, isLoading, error } = useGetCards(totalCards);
 
   // Game logic component
   const handleCardClick = (id: number) => {
@@ -46,11 +38,11 @@ const Board = ({
   // if no of total cards is changed (e.g. game started or difficulty changed)
   useEffect(() => {
     setClickedCards([]);
-    (async () => {
-      setIsLoading(true);
-      setCards(await loadCards(totalCards));
-      setIsLoading(false);
-    })();
+    // (async () => {
+    //   setIsLoading(true);
+    //   setCards(await getCards(totalCards));
+    //   setIsLoading(false);
+    // })();
     // console.log(`# total cards ${totalCards}`);
   }, [totalCards]);
 
@@ -62,14 +54,14 @@ const Board = ({
     ) {
       setGameResult("won");
       setClickedCards([]);
-      (async () => {
-        setIsLoading(true);
-        setCards(await loadCards(totalCards));
-        setIsLoading(false);
-      })();
+      // (async () => {
+      //   setIsLoading(true);
+      //   setCards(await getCards(totalCards));
+      //   setIsLoading(false);
+      // })();
       console.log("WON!!!");
     }
-  }, [cards, clickedCards, setClickedCards, totalCards]);
+  }, [clickedCards]);
 
   return (
     <>
@@ -93,4 +85,4 @@ const Board = ({
   );
 };
 
-export default Board;
+export { Board };
