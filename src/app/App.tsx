@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import Board from "../gameboard/Board";
+import { Board } from "../gameboard/Board";
 import Result from "../gameboard/Result";
 import DifficultySwitch from "./DifficultySwitch";
 

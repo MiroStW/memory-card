@@ -1,5 +1,3 @@
-import React from "react";
-
 interface resultProps {
   gameResult: "lost" | "won" | null;
   setGameResult: (gameResult: null) => void;

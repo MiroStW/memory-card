@@ -1,5 +1,3 @@
-import React from "react";
-
 interface CardProps {
   id: number;
   handleCardClick: (id: number) => void;
