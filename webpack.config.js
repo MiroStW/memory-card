@@ -16,17 +16,6 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(jpg|png)$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8192,
-            },
-          },
-        ],
-      },
-      {
         test: /\.tsx?$/,
         include: path.resolve("src"),
         use: ["babel-loader", "ts-loader"],
