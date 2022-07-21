@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useGetCards } from "./useGetCards";
+import { useGetCards } from "../api/useGetCards";
 import Card from "./Card";
 
 interface BoardProps {
@@ -31,37 +31,16 @@ const Board = ({
       setClickedCards([]);
     } else {
       console.log("new card clicked");
-      setClickedCards([...clickedCards, id]);
+      if (clickedCards.length === totalCards - 1) {
+        setGameResult("won");
+        setClickedCards([]);
+      } else {
+        setClickedCards([...clickedCards, id]);
+      }
     }
   };
 
-  // if no of total cards is changed (e.g. game started or difficulty changed)
-  useEffect(() => {
-    setClickedCards([]);
-    // (async () => {
-    //   setIsLoading(true);
-    //   setCards(await getCards(totalCards));
-    //   setIsLoading(false);
-    // })();
-    // console.log(`# total cards ${totalCards}`);
-  }, [totalCards]);
-
-  useEffect(() => {
-    // if all cards clicked // WON
-    if (
-      clickedCards.length === Object.keys(cards).length &&
-      clickedCards.length > 0
-    ) {
-      setGameResult("won");
-      setClickedCards([]);
-      // (async () => {
-      //   setIsLoading(true);
-      //   setCards(await getCards(totalCards));
-      //   setIsLoading(false);
-      // })();
-      console.log("WON!!!");
-    }
-  }, [clickedCards]);
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>

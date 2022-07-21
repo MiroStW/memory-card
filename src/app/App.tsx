@@ -30,6 +30,7 @@ const App = () => {
         <DifficultySwitch
           totalCards={totalCards}
           setTotalCards={setTotalCards}
+          setClickedCards={setClickedCards}
         />
         {/* add new cards btn */}
       </div>
@@ -43,6 +44,7 @@ const App = () => {
                 <>
                   {gameResult && <Navigate to="/result" />}
                   <Board
+                    key={totalCards} // force re-render when totalCards changes
                     totalCards={totalCards}
                     clickedCards={clickedCards}
                     setClickedCards={setClickedCards}
