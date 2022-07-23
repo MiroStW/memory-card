@@ -22,7 +22,7 @@ const Board = ({
 }: BoardProps) => {
   const { cards, isLoading, error } = useGetCards(totalCards);
 
-  // Game logic component
+  // Game logic
   const handleCardClick = (id: number) => {
     if (clickedCards.includes(id)) {
       console.log("card already clicked");
@@ -32,6 +32,8 @@ const Board = ({
     } else {
       console.log("new card clicked");
       if (clickedCards.length === totalCards - 1) {
+        if (clickedCards.length >= bestScore)
+          setBestScore(clickedCards.length + 1);
         setGameResult("won");
         setClickedCards([]);
       } else {
